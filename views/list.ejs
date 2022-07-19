@@ -2,7 +2,10 @@
     <div class="box" id="heading">
        <h1> <%= listTile %></h1>
     </div>
+    <div class="box" id="heading1">
 
+    <h1><a href="/logout">Log Out</a></h1>
+</div>
 
       <div class="box">
       <form  action="/delete" method="post">
@@ -10,7 +13,7 @@
             <div class="item">
                 <input type="checkbox" name="checkbox" value=<%=itemsss._id %> onchange="this.form.submit()" ></input>
                  <p><%= itemsss.name; %></p>
-                 <!-- <input type="hidden" name="titles" value=<%= listTile %>></input> -->
+                 <input type="hidden" name="titles" value=<%= listTile %>></input>
             </div>
           <% });%>
            <input type="hidden" name="titles" value=<%= listTile %>></input>
@@ -18,7 +21,7 @@
 
 
 
-     <form  class="item" action="/" method="post">
+     <form  class="item" action="/post" method="post">
        <input type="text" name="haji" value="" placeholder="Add A Item" autocomplete="off"></input>
 
        <button type="submit" name="hi" value=<%= listTile %> >+</button>
