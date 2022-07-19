@@ -10,7 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const app=express();
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
-
+const FacebookStrategy=require("passport-facebook");
 
 
 
@@ -35,6 +35,29 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      // const { email, first_name, last_name } = profile._json;
+      // const userData = {
+      //   email,
+      //   firstName: first_name,
+      //   lastName: last_name
+      // };
+      // new userModel(userData).save();
+      // done(null, profile);
+      console.log(profile);
+      User.findOrCreate({ username: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -80,6 +103,16 @@ app.get("/auth/google/secrets",
     // Successful authentication, redirect to secrets.
     res.redirect("/list");
   });
+
+  app.get("/auth/facebook",
+    passport.authenticate('facebook')
+  );
+  app.get("/auth/facebook/callback",
+    passport.authenticate('facebook', { failureRedirect: "/l" }),
+    function(req, res) {
+      // Successful authentication, redirect to secrets.
+      res.redirect("/list");
+    });
 app.get("/", function(req, res){
   res.render("login");
 });
