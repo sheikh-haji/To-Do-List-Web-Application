@@ -37,6 +37,7 @@ passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: "https://todolistcegchennai.herokuapp.com/auth/google/secrets",
+
      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -51,7 +52,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/facebook/callback"
+      callbackURL: "https://todolistcegchennai.herokuapp.com/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
       // const { email, first_name, last_name } = profile._json;
