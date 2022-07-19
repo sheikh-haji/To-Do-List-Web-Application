@@ -5,6 +5,8 @@ const bodyparser=require("body-parser");
 const mongoose=require("mongoose");
 const ejs=require("ejs");
 const session = require('express-session');
+const RedisStore = require("connect-redis")(session)
+
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const app=express();
@@ -14,14 +16,23 @@ const FacebookStrategy=require("passport-facebook");
 
 
 
+
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
+app.set('trust proxy', 1);
+
 app.use(session({
   secret: "Our little secret.",
   resave: false,
   saveUninitialized: false
 }));
+// app.use(function(req,res,next){
+// if(!req.session){
+//     return next(new Error('Oh no')) //handle error
+// }
+// next() //otherwise continue
+// });
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
@@ -61,7 +72,7 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.listen(3000,function(req,res){
+app.listen(process.env.PORT || 3000,function(req,res){
    console.log("listening to port 3000");
 });
 mongoose.connect("mongodb+srv://sheikhhaji18:"+process.env.PASSWORD+"@cluster0.2akiep0.mongodb.net/todolistDB",{useNewUrlParser:true});
