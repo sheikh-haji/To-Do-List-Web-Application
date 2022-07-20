@@ -2,10 +2,13 @@
     <div class="box" id="heading">
        <h1> <%= listTile %></h1>
     </div>
+    <form  action="/logout" method="get">
     <div class="box" id="heading1">
 
-    <h1><a href="/logout">Log Out</a></h1>
+    <!-- <h2 onchange="this.form.submit()">Logout</h2> -->
+    <button type="submit" class="box" id="heading1"><h2 onchange="this.form.submit()">Logout</h2></button>
 </div>
+</form>
 
       <div class="box">
       <form  action="/delete" method="post">
@@ -24,7 +27,7 @@
      <form  class="item" action="/post" method="post">
        <input type="text" name="haji" value="" placeholder="Add A Item" autocomplete="off"></input>
 
-       <button type="submit" name="hi" value=<%= listTile %> >+</button>
+       <button type="submit" class="but" name="hi" value=<%= listTile %> >+</button>
      </form>
    </div>
 
