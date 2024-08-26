@@ -2,13 +2,7 @@
     <div class="box" id="heading">
        <h1> <%= listTile %></h1>
     </div>
-    <form  action="/logout" method="get">
-    <div class="box" id="heading1">
-
-    <!-- <h2 onchange="this.form.submit()">Logout</h2> -->
-    <button type="submit" class="box" id="heading1"><h2 onchange="this.form.submit()">Logout</h2></button>
-</div>
-</form>
+    
 
       <div class="box">
       <form  action="/delete" method="post">
@@ -30,6 +24,14 @@
        <button type="submit" class="but" name="hi" value=<%= listTile %> >+</button>
      </form>
    </div>
+   <form  action="/logout" method="get">
+    
+
+    <!-- <h2 onchange="this.form.submit()">Logout</h2> -->
+    <button type="submit"  id="headingx"><h2 onchange="this.form.submit()">Logout</h2></button>
+
+</form>
+  
 
 
    <%- include("footer") -%>
