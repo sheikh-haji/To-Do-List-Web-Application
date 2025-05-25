@@ -204,6 +204,29 @@ app.post("/login", function(req, res){
   });
 
 });
+app.post("/delete", function (req, res) {
+  const id = req.body.checkbox;
+  const temp1 = req.user.username;
+
+  if (req.isAuthenticated()) {
+    newlist.findOneAndUpdate(
+      { uname: temp1 },
+      { $pull: { items: { _id: id } } },
+      function (err, result) {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Delete failed.");
+        } else {
+          console.log("Deleted successfully");
+          res.redirect("/list"); // 👈 Make sure this redirects somewhere
+        }
+      }
+    );
+  } else {
+    res.redirect("/login"); // or wherever you want unauthenticated users to go
+  }
+});
+
 // app.post("/delete",function(req,res){
 //   const id=req.body.checkbox;
 //   const temp1=req.user.username;
@@ -220,20 +243,20 @@ app.post("/login", function(req, res){
 //       });}
 
 // });
-app.post("/delete", function(req, res) {
-  const itemId = req.body.checkbox;
-  const listTitle = req.body.titles;
+// app.post("/delete", function(req, res) {
+//   const itemId = req.body.checkbox;
+//   const listTitle = req.body.titles;
 
-  Item.findByIdAndRemove(itemId, function(err) {
-    if (!err) {
-      console.log("Deleted item:", itemId);
-      res.redirect("/" + listTitle);
-    } else {
-      console.log("Error deleting item:", err);
-      res.status(500).send("Error deleting item");
-    }
-  });
-});
+//   newlist.findByIdAndRemove(itemId, function(err) {
+//     if (!err) {
+//       console.log("Deleted item:", itemId);
+//       res.redirect("/list");
+//     } else {
+//       console.log("Error deleting item:", err);
+//       res.status(500).send("Error deleting item");
+//     }
+//   });
+// });
 
 
 app.post("/post",function(req,res){
