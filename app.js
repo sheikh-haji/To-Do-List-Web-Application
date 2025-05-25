@@ -145,7 +145,7 @@ app.get("/list", function(req, res){
 
             if(!foundlist){
               // console.log(foundlist.items);
-              newlist.create({uname:temp,name:"Today",items:defaultitem},function(err){
+              newlist.create({uname:temp,name:"Today",items:defaultitem,checked:false},function(err){
                 if(err){
                   console.log(err);
                 }else{
@@ -204,22 +204,37 @@ app.post("/login", function(req, res){
   });
 
 });
-app.post("/delete",function(req,res){
-  const id=req.body.checkbox;
-  const temp1=req.user.username;
-  if(req.isAuthenticated()){
-  newlist.findOneAndUpdate({uname:temp1}, {$pull: {items: {_id:id}}},function(err){
-        if(err){
-          console.log(err);
-        }
-        else{
-          console.log("deleted successfully");
-          res.redirect("/list");
-        }
+// app.post("/delete",function(req,res){
+//   const id=req.body.checkbox;
+//   const temp1=req.user.username;
+//   if(req.isAuthenticated()){
+//   newlist.findByIdAndRemove({uname:temp1}, {$pull: {items: {_id:id}}},function(err){
+//         if(err){
+//           console.log(err);
+//         }
+//         else{
+//           console.log("deleted successfully");
+//           // res.redirect("/list");
+//         }
 
-      });}
+//       });}
 
+// });
+app.post("/delete", function(req, res) {
+  const itemId = req.body.checkbox;
+  const listTitle = req.body.titles;
+
+  Item.findByIdAndRemove(itemId, function(err) {
+    if (!err) {
+      console.log("Deleted item:", itemId);
+      res.redirect("/" + listTitle);
+    } else {
+      console.log("Error deleting item:", err);
+      res.status(500).send("Error deleting item");
+    }
+  });
 });
+
 
 app.post("/post",function(req,res){
   const temp1=req.user.username;

@@ -1,37 +1,39 @@
 <%- include("header") -%>
-    <div class="box" id="heading">
-       <h1> <%= listTile %></h1>
-    </div>
-    
 
-      <div class="box">
-      <form  action="/delete" method="post">
-        <% list.forEach(function(itemsss){%>
-            <div class="item">
-                <input type="checkbox" name="checkbox" value=<%=itemsss._id %> onchange="this.form.submit()" ></input>
-                 <p><%= itemsss.name; %></p>
-                 <input type="hidden" name="titles" value=<%= listTile %>></input>
-            </div>
-          <% });%>
-           <input type="hidden" name="titles" value=<%= listTile %>></input>
+<div class="box" id="heading">
+  <h1><%= listTile %></h1>
+</div>
+
+<div class="box">
+  <% list.forEach(function(itemsss) { %>
+    <div class="item">
+      <input type="checkbox" value="itemsss.checked">
+      <p><%= itemsss.name %></p>
+
+      <!-- Each delete icon has its own form -->
+      <form action="/delete" method="POST" style="display:inline;">
+        <input type="hidden" name="checkbox" value="<%= itemsss._id %>">
+        <input type="hidden" name="titles" value="<%= listTile %>">
+        
+        <button type="submit" style="border:none; background:none; cursor:pointer;" title="Delete item">
+          <i class="fas fa-trash-alt" style="color:red;"></i>
+        </button>
       </form>
+    </div>
+  <% }); %>
 
+  <!-- Add new item -->
+  <form class="item" action="/post" method="post">
+    <input type="text" name="haji" value="" placeholder="Add A Item" autocomplete="off">
+    <button type="submit" class="but" name="hi" value="<%= listTile %>">+</button>
+  </form>
+</div>
 
-
-     <form  class="item" action="/post" method="post">
-       <input type="text" name="haji" value="" placeholder="Add A Item" autocomplete="off"></input>
-
-       <button type="submit" class="but" name="hi" value=<%= listTile %> >+</button>
-     </form>
-   </div>
-   <form  action="/logout" method="get">
-    
-
-    <!-- <h2 onchange="this.form.submit()">Logout</h2> -->
-    <button type="submit"  id="headingx"><h2 onchange="this.form.submit()">Logout</h2></button>
-
+<!-- Logout -->
+<form action="/logout" method="get">
+  <button type="submit" id="headingx">
+    <h2>Logout</h2>
+  </button>
 </form>
-  
 
-
-   <%- include("footer") -%>
+<%- include("footer") -%>
